@@ -1,0 +1,16 @@
+{
+  "name": "http_connector",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bottlejs": "^1.7.2",
+    "config": "^3.2.4",
+    "express": "^4.17.1",
+    "http-shutdown": "^1.2.1",
+    "socket.io": "^2.3.0",
+    "url-join": "^4.0.1"
+  }
+}
