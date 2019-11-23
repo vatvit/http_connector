@@ -25,8 +25,9 @@ function start(app) {
         console.error(error);
         process.exit(1);
     });
+    server.on('listening', () => {console.log('listening ' + server.address().port);});
 
-    server.listen(process.env.NODE_PORT || 5000);
+    server.listen(process.env.NODE_PORT || 8888);
 
     if (app.ws) {
         console.log('ws server start');

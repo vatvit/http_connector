@@ -4,3 +4,4 @@ router.use('/test', function routeTest(req, res) {
   res.send('test');
 });
 
+module.exports = router;
