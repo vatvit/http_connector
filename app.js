@@ -9,7 +9,7 @@ app.use('/status', function routeStatus (req, res) {
     res.send({status: 'ok'});
 });
 
-app.use(urljoin('api', 'v1'), require('./routes'));
+app.use(urljoin('/', 'api', 'v1'), require('./routes'));
 
 app.use((req, res) => {
     return res.status(404).send({
