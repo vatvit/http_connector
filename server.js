@@ -6,15 +6,15 @@ require('http-shutdown').extend();
 const server = http.createServer().withShutdown();
 
 const exitHandler = function exitHandler(message) {
-    return function handle (args) {
-        console.log(typeof message === 'function' ? message(...args) : message);
+    return function handle () {
+        console.log(typeof message === 'function' ? message(...arguments) : message);
         server.shutdown(function exit () {console.log('Shutdown');});
     };
 };
 
 process.on('SIGINT', exitHandler('SIGINT signal'));
 process.on('SIGTERM', exitHandler('SIGTERM signal'));
-process.on('exit', exitHandler((code) => {return 'Exit code: ' + code;}));
+process.on('exit', exitHandler(function exit(code) {return 'Exit code: ' + code;}));
 
 function start(app) {
     console.log('server start');
