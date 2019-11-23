@@ -1,0 +1,11 @@
+version: "2"
+services:
+  node:
+    build:
+      context: .
+    environment:
+      - NODE_ENV=develop
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8888"
