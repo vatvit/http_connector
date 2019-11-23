@@ -18,10 +18,11 @@
 
     inputSubmit.on('click', function submit () {
       var eventName = inputEventName.val();
-      var data = inputData.val();
+      var params = inputData.val().split('\n');
       inputData.val('');
-      var params = data.split('\n');
+
       show('SEND: ' + JSON.stringify(params));
+
       socket.emit(eventName, ...params);
     });
 
