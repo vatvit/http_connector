@@ -17,6 +17,8 @@ process.on('SIGTERM', exitHandler('SIGTERM signal'));
 process.on('exit', exitHandler(function exit(code) {return 'Exit code: ' + code;}));
 
 function start(app) {
+    const port = process.env.NODE_PORT || 8888;
+
     console.log('server start');
 
     server.on('request', app);
@@ -25,9 +27,9 @@ function start(app) {
         console.error(error);
         process.exit(1);
     });
-    server.on('listening', () => {console.log('listening ' + server.address().port);});
+    server.on('listening', () => {console.log('listening ' + port);});
 
-    server.listen(process.env.NODE_PORT || 8888);
+    server.listen(port);
 
     if (app.ws) {
         console.log('ws server start');
