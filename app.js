@@ -13,7 +13,7 @@ app.use(function routeDebug (req, res, next) {
     next();
 });
 
-app.use('/status', function routeStatus (req, res) {
+app.use(urljoin(config.get('basePath'), '/status'), function routeStatus (req, res) {
     res.send({status: 'ok'});
 });
 
