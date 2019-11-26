@@ -26,7 +26,7 @@
       socket.emit(eventName, ...params);
     });
 
-    const socket = io('<%= ws.uri %>');
+    const socket = io('<%= ws.host %>'<% if (ws.path)  { %>, {path: '<%= ws.path %>'}<% } %>);
 
     socket.on('connect', () => {
       show('connected');

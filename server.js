@@ -1,5 +1,6 @@
 const http = require('http');
 const socketIo = require('socket.io');
+const config = require('config');
 
 require('http-shutdown').extend();
 
@@ -35,6 +36,9 @@ function start(app) {
         console.log('ws server start');
 
         const ws = socketIo(server);
+        if (config.get('ws').path) {
+            ws.path(config.get('ws').path);
+        }
 
         ws.on('connection', function (socket) {
             console.log('WS connected');
