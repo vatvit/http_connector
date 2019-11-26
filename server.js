@@ -31,7 +31,7 @@ function start(app) {
 
     server.listen(port);
 
-    if (app.ws) {
+    if (app.wsEvents) {
         console.log('ws server start');
 
         const ws = socketIo(server);
@@ -39,7 +39,7 @@ function start(app) {
         ws.on('connection', function (socket) {
             console.log('WS connected');
 
-            app.ws(socket);
+            app.wsEvents(socket);
         });
     }
 }
