@@ -1,9 +1,18 @@
+const config = require('config');
+const fs = require('fs');
+const ejs = require('ejs');
 const router = require('express').Router();
 
-router.get('/test', function routeTest(req, res) {
+const wsTest = fs.readFileSync(__dirname + '/wsTest.ejs', 'utf8');
+
+router.get('/test', function routeTest (req, res) {
   res.send('test');
 });
 
-router.get('/wsTest', require('./wsTest'));
+router.get('/wsTest', function routeWsTest (req, res) {
+  res.send(ejs.render(wsTest, {
+    ws: config.get('ws'),
+  }));
+});
 
 module.exports = router;

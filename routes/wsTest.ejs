@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <title>WebSocket Test</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script language="javascript" type="text/javascript">
 
-    $(document).ready(function onReady () {
+  $(document).ready(function onReady() {
 
     var output = $('#output');
     var inputEventName = $('#inputEventName');
@@ -13,10 +13,10 @@
     var inputSubmit = $('#inputSubmit');
 
     function show(message) {
-        output.append('<div>' + message + '</div>');
+      output.append('<div>' + message + '</div>');
     }
 
-    inputSubmit.on('click', function submit () {
+    inputSubmit.on('click', function submit() {
       var eventName = inputEventName.val();
       var params = inputData.val().split('\n');
       inputData.val('');
@@ -26,17 +26,17 @@
       socket.emit(eventName, ...params);
     });
 
-  const socket = io('http://127.0.0.1');
+    const socket = io('<%= ws.uri %>');
 
-  socket.on('connect', () => {
-    show('connected');
-  });
-
-  socket.on('message', function (data) {
-    show('MESSAGE: ' + JSON.stringify(data));
-  });
-
+    socket.on('connect', () => {
+      show('connected');
     });
+
+    socket.on('message', function (data) {
+      show('MESSAGE: ' + JSON.stringify(data));
+    });
+
+  });
 
 </script>
 
