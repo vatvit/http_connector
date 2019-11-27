@@ -8,6 +8,7 @@ module.exports = function wsEvents (socket) {
       console.log('WS message');
       console.log(data);
       socket.emit('message', data);
+      socket.broadcast.emit('message', data);
     })
 
 };
