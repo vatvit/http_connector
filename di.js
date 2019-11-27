@@ -11,3 +11,7 @@ bottlejs.service('Logger', function Logger () {
 bottlejs.service('CommandsQueue', function commandsQueueConstructor () {
   return new (require('./commandsQueue'))();
 });
+
+bottlejs.service('WsSocketsManager', function wsSocketsEventsEmitterConstructor () {
+  return new (require('./wsSocketsManager'))();
+});

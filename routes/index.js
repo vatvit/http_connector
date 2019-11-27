@@ -15,4 +15,6 @@ router.get('/wsTest', function routeWsTest (req, res) {
   }));
 });
 
+router.use('/commandsQueue', require('./commandsQueue'));
+
 module.exports = router;

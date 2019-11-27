@@ -1,12 +1,17 @@
 const di = require('bottlejs').pop('app').container;
 
 const logger = di.Logger;
+const wsSocketsManager = di.WsSocketsManager;
 const commandsQueue = di.CommandsQueue;
 
 module.exports = function wsEvents (socket) {
 
+  wsSocketsManager.add(socket);
+
     socket.on('disconnect', function() {
       logger.log('WS disconnected');
+      wsSocketsManager.remove(socket.id);
+      logger.log('WS connections: ' + wsSocketsManager.count());
     });
 
     socket.on('message', function wsMessageHandler (data) {
