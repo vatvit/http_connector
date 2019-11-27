@@ -39,7 +39,7 @@
 
     const options = {
         <% if (ws.path) { %>path: '<%= ws.path %>',<% } %>
-        transports: ['websocket'],
+        //transports: ['websocket'],
     };
 
     const socket = io('<%= ws.host %>', options);
