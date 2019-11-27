@@ -1,4 +1,3 @@
-
 console.log('http connector index start');
 
 const server = require('./server');

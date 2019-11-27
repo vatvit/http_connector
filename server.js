@@ -17,7 +17,7 @@ process.on('SIGINT', exitHandler('SIGINT signal'));
 process.on('SIGTERM', exitHandler('SIGTERM signal'));
 process.on('exit', exitHandler(function exit(code) {return 'Exit code: ' + code;}));
 
-function start(app) {
+const start = function start(app) {
     const port = process.env.NODE_PORT || 8888;
 
     console.log('server start');
@@ -28,17 +28,19 @@ function start(app) {
         console.error(error);
         process.exit(1);
     });
-    server.on('listening', () => {console.log('listening ' + port);});
-
-    server.listen(port);
+    server.on('listening', function onListening () {
+        console.log('listening ' + port);
+    });
 
     if (app.wsEvents) {
         console.log('ws server start');
 
-        const ws = socketIo(server);
+        const options = {};
         if (config.get('ws').path) {
-            ws.path(config.get('ws').path);
+            options.path = config.get('ws').path;
         }
+
+        const ws = socketIo(server, options);
 
         ws.on('connection', function (socket) {
             console.log('WS connected');
@@ -46,7 +48,11 @@ function start(app) {
             app.wsEvents(socket);
         });
     }
-}
+
+    server.listen(port);
+
+    app.init();
+};
 
 module.exports.server = server;
 module.exports.start = start;
