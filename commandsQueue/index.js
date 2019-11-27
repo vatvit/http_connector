@@ -5,7 +5,7 @@ module.exports = class CommandsQueue {
   }
 
   get () {
-    return this.__queue;
+    return [...this.__queue];
   }
 
   clear () {
