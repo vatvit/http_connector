@@ -9,7 +9,7 @@ const commandsQueue = di.CommandsQueue;
 router.get('/', function routeGet (req, res) {
   const params = Joi.object(req.query, {
     processing: Joi.any().optional(),
-    status: Joi.any().allow(Object.values(commandsQueue.getAllowedStatuses())),
+    status: Joi.any().allow(...Object.values(commandsQueue.getAllowedStatuses())).optional(),
   });
 
   const commands = commandsQueue.all(params.status);

@@ -45,7 +45,7 @@ module.exports = class CommandsQueue {
     this.__queue.get(uuid).status = statuses.STATUS_FINISHED;
   }
 
-  static getAllowedStatuses () {
+  getAllowedStatuses () {
     return {...statuses};
   }
 
