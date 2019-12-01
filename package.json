@@ -6,12 +6,14 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
     "bottlejs": "^1.7.2",
     "config": "^3.2.4",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "http-shutdown": "^1.2.1",
     "socket.io": "^2.3.0",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "uuid": "^3.3.3"
   }
 }

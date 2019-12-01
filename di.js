@@ -9,7 +9,7 @@ bottlejs.service('Logger', function Logger () {
 });
 
 bottlejs.service('CommandsQueue', function commandsQueueConstructor () {
-  return new (require('./commandsQueue'))();
+  return new (require('./commands').CommandsQueue)();
 });
 
 bottlejs.service('WsSocketsManager', function wsSocketsEventsEmitterConstructor () {

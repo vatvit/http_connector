@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+
 const di = require('bottlejs').pop('app').container;
 
 const logger = di.Logger;
@@ -14,27 +16,37 @@ module.exports = function wsEvents (socket) {
       logger.log('WS connections: ' + wsSocketsManager.count());
     });
 
-    socket.on('message', function wsMessageHandler (data) {
+    socket.on('message', function wsMessageHandler (input) {
       logger.log('WS message');
-      logger.log(data);
+      logger.log(input);
 
-      commandsQueue.push(data);
-      const queue = commandsQueue.get();
+      socket.emit('message', input);
+      socket.broadcast.emit('message', input);
 
-      socket.emit('message', data);
+      const data = Joi.attempt(input, Joi.object({
+        commands: Joi.array().min(1).items(Joi.string().required()),
+      }));
+
+      for (let commandString of data.commands) {
+        commandsQueue.add(commandString);
+      }
+
+      const queue = commandsQueue.all();
+
       socket.emit('inQueue', queue);
-      socket.broadcast.emit('message', data);
       socket.broadcast.emit('inQueue', queue);
     });
 
     socket.on('getQueue', function wsGetQueueHandler () {
       logger.log('WS getQueue');
 
-      const queue = commandsQueue.get();
+      socket.emit('inQueue', commandsQueue.all());
+    });
 
-      socket.emit('queue', queue);
+    socket.on('clearQueue', function wsClearQueueHandler () {
+      logger.log('WS clearQueue');
 
-      commandsQueue.clear();
+      const queue = commandsQueue.clear();
 
       socket.emit('inQueue', queue);
       socket.broadcast.emit('inQueue', queue);

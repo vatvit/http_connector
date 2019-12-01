@@ -12,7 +12,8 @@
     var inputEventName = $('#inputEventName');
     var inputData = $('#inputData');
     var inputSubmit = $('#inputSubmit');
-    var inputGetQueue = $('#inputGetQueue');
+    var inputClearQueue = $('#inputClearQueue');
+    var inputClearConsole = $('#inputClearConsole');
 
     function show (message) {
       outputContainer.append('<div>' + message + '</div>');
@@ -20,7 +21,7 @@
 
     function showQueue (index) {
       queueContainer.html('Queue:');
-      index.forEach((item) => queueContainer.append('<div>' + item + '</div>'));
+      index.forEach((item) => queueContainer.append('<div>' + JSON.stringify(item) + '</div>'));
     }
 
     inputSubmit.on('click', function submit () {
@@ -28,24 +29,39 @@
       var params = inputData.val().split('\n');
       inputData.val('');
 
+      params.forEach(function (val, i, arr) {
+        val = arr[i] = val.trim();
+        if (!val.length) {
+          arr.splice(i, 1);
+        }
+      });
+
+      if (params.length < 1) {
+        return;
+      }
+
       show('SEND: ' + JSON.stringify(params));
 
-      socket.emit(eventName, ...params);
+      socket.emit(eventName, {commands: params});
     });
 
-    inputGetQueue.on('click', function getQueue () {
-      socket.emit('getQueue');
+    inputClearQueue.on('click', function getQueue () {
+      socket.emit('clearQueue');
+    });
+
+    inputClearConsole.on('click', function clearConsole () {
+      outputContainer.html('');
     });
 
     const options = {
         <% if (ws.path) { %>path: '<%= ws.path %>',<% } %>
-        //transports: ['websocket'],
     };
 
     const socket = io('<%= ws.host %>', options);
 
     socket.on('connect', () => {
       show('connected');
+      socket.emit('getQueue');
     });
 
     socket.on('message', function (data) {
@@ -54,10 +70,6 @@
 
     socket.on('inQueue', function (data) {
       showQueue(data);
-    });
-
-    socket.on('queue', function (data) {
-      alert(JSON.stringify(data));
     });
 
   });
@@ -71,7 +83,8 @@
     <input id="inputEventName" value="message">
     <textarea id="inputData"></textarea>
     <input type="button" id="inputSubmit" value="submit">
-    <input type="button" id="inputGetQueue" value="getQueue">
+    <input type="button" id="inputClearQueue" value="clearQueue">
+    <input type="button" id="inputClearConsole" value="clearConsole">
 </div>
 
 <div id="output"></div>
