@@ -24,9 +24,6 @@ module.exports = class Command {
   }
 
   set status (value) {
-    if (!Command.getAllowedStatuses().includes(value)) {
-      throw new Error('Unknown status "' + value + '"');
-    }
     this.__status = value;
   }
 
@@ -47,4 +44,4 @@ module.exports = class Command {
     };
   }
 
-}
+};

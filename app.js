@@ -10,6 +10,8 @@ app.wsEvents = require('./wsEvents');
 
 app.init = function init () {
 
+    app.use(express.json());
+
     app.use(function routeDebug (req, res, next) {
         console.dir('originalUrl: ' + req.originalUrl);
         console.dir('baseUrl: ' + req.baseUrl);
