@@ -14,6 +14,9 @@
     var inputSubmit = $('#inputSubmit');
     var inputClearQueue = $('#inputClearQueue');
     var inputClearConsole = $('#inputClearConsole');
+    var selectStatus = $('#selectStatus');
+    var inputProcessing = $('#inputProcessing');
+    var inputGetQueue = $('#inputGetQueue');
 
     function show (message) {
       outputContainer.append('<div>' + message + '</div>');
@@ -53,6 +56,21 @@
       outputContainer.html('');
     });
 
+    inputGetQueue.on('click', function getQueue () {
+      $.ajax({
+        url: '<%= website.host %><%= website.path %>/api/v1/commands',
+        data: {
+          status: selectStatus.val(),
+          processing: inputProcessing.prop('checked') ? 1 : null,
+        },
+        type: "get",
+      }).done(function getQueueDone (response) {
+        alert(JSON.stringify(response));
+      }).fail(function getQueueFail (jqXHR, response) {
+        alert(JSON.stringify(response));
+      });
+    });
+
     const options = {
         <% if (ws.path) { %>path: '<%= ws.path %>',<% } %>
     };
@@ -85,6 +103,14 @@
     <input type="button" id="inputSubmit" value="submit">
     <input type="button" id="inputClearQueue" value="clearQueue">
     <input type="button" id="inputClearConsole" value="clearConsole">
+    <select name="status" id="selectStatus">
+        <option value="">All</option>
+        <option value="in_queue">In Queue</option>
+        <option value="processing">Processing</option>
+        <option value="finished">Finished</option>
+    </select>
+    <input type="checkbox" name="processing" value="1" alt="processing" id="inputProcessing" />
+    <input type="button" id="inputGetQueue" value="getQueue">
 </div>
 
 <div id="output"></div>
