@@ -3,6 +3,7 @@
 <title>WebSocket Test</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/url-join@4.0.1/lib/url-join.min.js"></script>
 <script language="javascript" type="text/javascript">
 
   $(document).ready(function onReady() {
@@ -59,7 +60,7 @@
 
     inputGetQueue.on('click', function getQueue () {
       $.ajax({
-        url: '<%= website.baseHost %><%= website.basePath %>/api/v1/commands',
+        url: urljoin('<%= website.baseHost %>', '<%= website.basePath %>api', 'v1', 'commands'),
         data: {
           status: selectStatus.val(),
           processing: inputProcessing.prop('checked') ? 1 : null,
