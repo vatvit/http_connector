@@ -19,7 +19,7 @@ app.init = function init () {
         next();
     });
 
-    app.use(urljoin(config.get('website').basePath, '/status'), function routeStatus (req, res) {
+    app.use(urljoin(config.get('website').basePath, 'status'), function routeStatus (req, res) {
         res.send({status: 'ok'});
     });
 

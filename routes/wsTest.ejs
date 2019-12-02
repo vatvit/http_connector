@@ -60,7 +60,7 @@
 
     inputGetQueue.on('click', function getQueue () {
       $.ajax({
-        url: urljoin('<%= website.baseHost %>', '<%= website.basePath %>api', 'v1', 'commands'),
+        url: urljoin('<%= website.basePath %>', 'api', 'v1', 'commands'),
         data: {
           status: selectStatus.val(),
           processing: inputProcessing.prop('checked') ? 1 : null,
