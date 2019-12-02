@@ -10,9 +10,10 @@ router.get('/', function routeGet (req, res) {
   const params = Joi.attempt(req.query, Joi.object({
     processing: Joi.any().optional(),
     status: Joi.any().allow(...Object.values(commandsQueue.getAllowedStatuses())).optional(),
+    limit: Joi.number().empty('').allow('').integer().min(0).max(10),
   }));
 
-  const commands = commandsQueue.all(params.status);
+  const commands = commandsQueue.all(params.status, params.limit);
 
   if (params.processing) {
     for (let command of commands) {

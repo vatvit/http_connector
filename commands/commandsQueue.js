@@ -11,11 +11,14 @@ module.exports = class CommandsQueue {
     return this.__queue.get(uuid);
   }
 
-  all (status = null) {
+  all (status = null, limit = 0) {
     const all = [];
     for (const [key, command] of this.__queue) {
       if (!status || command.status === status) {
         all.push(command.render());
+      }
+      if ((all.length - limit) === 0) {
+        return all;
       }
     }
     return all;

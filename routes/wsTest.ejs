@@ -14,6 +14,7 @@
     var inputSubmit = $('#inputSubmit');
     var inputClearQueue = $('#inputClearQueue');
     var inputClearConsole = $('#inputClearConsole');
+    var inputLimit = $('#inputLimit');
     var selectStatus = $('#selectStatus');
     var inputProcessing = $('#inputProcessing');
     var inputGetQueue = $('#inputGetQueue');
@@ -62,6 +63,7 @@
         data: {
           status: selectStatus.val(),
           processing: inputProcessing.prop('checked') ? 1 : null,
+          limit: inputLimit.val() ? inputLimit.val() : null,
         },
         type: "get",
       }).done(function getQueueDone (response) {
@@ -103,6 +105,7 @@
     <input type="button" id="inputSubmit" value="submit">
     <input type="button" id="inputClearQueue" value="clearQueue">
     <input type="button" id="inputClearConsole" value="clearConsole">
+    <input id="inputLimit" value="10">
     <select name="status" id="selectStatus">
         <option value="">All</option>
         <option value="in_queue">In Queue</option>
