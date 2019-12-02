@@ -7,16 +7,23 @@
 
   $(document).ready(function onReady() {
 
-    var output = $('#output');
+    var outputContainer = $('#output');
+    var queueContainer = $('#index');
     var inputEventName = $('#inputEventName');
     var inputData = $('#inputData');
     var inputSubmit = $('#inputSubmit');
+    var inputGetQueue = $('#inputGetQueue');
 
-    function show(message) {
-      output.append('<div>' + message + '</div>');
+    function show (message) {
+      outputContainer.append('<div>' + message + '</div>');
     }
 
-    inputSubmit.on('click', function submit() {
+    function showQueue (index) {
+      queueContainer.html('Queue:');
+      index.forEach((item) => queueContainer.append('<div>' + item + '</div>'));
+    }
+
+    inputSubmit.on('click', function submit () {
       var eventName = inputEventName.val();
       var params = inputData.val().split('\n');
       inputData.val('');
@@ -26,7 +33,16 @@
       socket.emit(eventName, ...params);
     });
 
-    const socket = io('<%= ws.host %>'<% if (ws.path)  { %>, {path: '<%= ws.path %>'}<% } %>);
+    inputGetQueue.on('click', function getQueue () {
+      socket.emit('getQueue');
+    });
+
+    const options = {
+        <% if (ws.path) { %>path: '<%= ws.path %>',<% } %>
+        transports: ['websocket'],
+    };
+
+    const socket = io('<%= ws.host %>', options);
 
     socket.on('connect', () => {
       show('connected');
@@ -34,6 +50,14 @@
 
     socket.on('message', function (data) {
       show('MESSAGE: ' + JSON.stringify(data));
+    });
+
+    socket.on('inQueue', function (data) {
+      showQueue(data);
+    });
+
+    socket.on('queue', function (data) {
+      alert(JSON.stringify(data));
     });
 
   });
@@ -46,9 +70,11 @@
 <div>
     <input id="inputEventName" value="message">
     <textarea id="inputData"></textarea>
-    <input type="button" id="inputSubmit">
+    <input type="button" id="inputSubmit" value="submit">
+    <input type="button" id="inputGetQueue" value="getQueue">
 </div>
 
 <div id="output"></div>
+<div id="index" style="border: 1px red">:</div>
 
 </body>

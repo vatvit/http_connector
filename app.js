@@ -2,6 +2,8 @@ const urljoin = require('url-join');
 const express = require('express');
 const config = require('config');
 
+const di = require('./di');
+
 const app = express();
 
 app.wsEvents = require('./wsEvents');
