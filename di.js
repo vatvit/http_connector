@@ -15,3 +15,7 @@ bottlejs.service('CommandsQueue', function commandsQueueConstructor () {
 bottlejs.service('WsSocketsManager', function wsSocketsEventsEmitterConstructor () {
   return new (require('./wsSocketsManager'))();
 });
+
+bottlejs.service('ClientLogs', function wsSocketsEventsEmitterConstructor () {
+  return new (require('./clientLogs'))();
+});

@@ -9,6 +9,7 @@
   $(document).ready(function onReady() {
 
     var outputContainer = $('#output');
+    var clientLogsOutputContainer = $('#clientLogsOutput');
     var queueContainer = $('#index');
     var inputEventName = $('#inputEventName');
     var inputData = $('#inputData');
@@ -27,6 +28,11 @@
     function showQueue (index) {
       queueContainer.html('Queue:');
       index.forEach((item) => queueContainer.append('<div>' + JSON.stringify(item) + '</div>'));
+    }
+
+    function showClientLogs (logs) {
+      clientLogsOutputContainer.html('Client Logs:');
+      logs.forEach((item) => queueContainer.append('<div>' + JSON.stringify(item) + '</div>'));
     }
 
     inputSubmit.on('click', function submit () {
@@ -85,12 +91,16 @@
       socket.emit('getQueue');
     });
 
-    socket.on('message', function (data) {
+    socket.on('message', function wsMessageHandler (data) {
       show('MESSAGE: ' + JSON.stringify(data));
     });
 
-    socket.on('inQueue', function (data) {
+    socket.on('inQueue', function wsInQueueHandler (data) {
       showQueue(data);
+    });
+
+    socket.on('clientLogs', function wsClientLogsHandler (data) {
+      showClientLogs(data);
     });
 
   });
@@ -118,6 +128,6 @@
 </div>
 
 <div id="output"></div>
-<div id="index" style="border: 1px red">:</div>
+<div id="clientLogsOutput" style="border: 1px red">Client Logs:</div>
 
 </body>
