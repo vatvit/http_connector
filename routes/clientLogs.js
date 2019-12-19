@@ -4,6 +4,7 @@ const di = require('bottlejs').pop('app').container;
 const router = require('express').Router();
 
 const clientLogs = di.ClientLogs;
+const wsSocketsManager = di.WsSocketsManager;
 
 router.get('/', function routeGet (req, res) {
   const logs = clientLogs.all();
@@ -12,7 +13,9 @@ router.get('/', function routeGet (req, res) {
 });
 
 router.post('/', function routePost (req, res) {
-  const message = Joi.attempt(req.body, Joi.string().required());
+  const message = Joi.attempt(req.body, Joi.object({
+    message: Joi.string().required(),
+  }));
 
   clientLogs.add(message);
 

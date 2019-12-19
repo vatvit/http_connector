@@ -35,7 +35,7 @@ app.init = function init () {
     app.use((err, req, res, next) => {
         return res.status(500).send({
             status: 500,
-            error: err,
+            error: err.stack,
         });
     });
 
