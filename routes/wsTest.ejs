@@ -10,6 +10,7 @@
 
     var outputContainer = $('#output');
     var clientLogsOutputContainer = $('#clientLogsOutput');
+    var clientLogsOutputRefreshButton = $('#clientLogsOutputRefresh');
     var queueContainer = $('#index');
     var inputEventName = $('#inputEventName');
     var inputData = $('#inputData');
@@ -32,8 +33,19 @@
 
     function showClientLogs (logs) {
       clientLogsOutputContainer.html('Client Logs:');
-      logs.forEach((item) => queueContainer.append('<div>' + JSON.stringify(item) + '</div>'));
+      logs.forEach((item) => clientLogsOutputContainer.append('<div>' + JSON.stringify(item) + '</div>'));
     }
+
+    clientLogsOutputRefreshButton.on('click', function clientLogsOutputRefresh () {
+      $.ajax({
+        url: urljoin('<%= website.basePath %>', 'api', 'v1', 'clientLogs'),
+        type: "get",
+      }).done(function getClientLogsOutputRefreshDone (response) {
+        showClientLogs(response);
+      }).fail(function getClientLogsOutputRefreshFail (jqXHR, response) {
+        showClientLogs(response);
+      });
+    });
 
     inputSubmit.on('click', function submit () {
       var eventName = inputEventName.val();
@@ -128,6 +140,7 @@
 </div>
 
 <div id="output"></div>
+<input type="button" id="clientLogsOutputRefresh" value="clientLogsOutput">
 <div id="clientLogsOutput" style="border: 1px red">Client Logs:</div>
 
 </body>
