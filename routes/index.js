@@ -14,5 +14,6 @@ router.get('/wsTest', function routeWsTest (req, res) {
 
 router.use('/commands', require('./commands'));
 router.use('/clientLogs', require('./clientLogs'));
+router.use('/data', require('./data'));
 
 module.exports = router;
